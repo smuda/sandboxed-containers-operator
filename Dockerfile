@@ -1,5 +1,5 @@
 # Use OpenShift golang builder image
-FROM registry.ci.openshift.org/ocp/builder:rhel-8-golang-1.18-openshift-4.11 AS builder
+FROM registry.ci.openshift.org/openshift/release:golang-1.18 AS builder
 
 WORKDIR /workspace
 
@@ -20,7 +20,7 @@ RUN go mod vendor
 RUN GOFLAGS="" make build
 
 # Use OpenShift base image
-FROM registry.ci.openshift.org/ocp/4.11:base
+FROM registry.ci.openshift.org/origin/4.10:base
 WORKDIR /
 COPY --from=builder /workspace/bin/manager .
 
